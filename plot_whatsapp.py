@@ -5,6 +5,8 @@ import re
 import datetime
 import csv
 
+import private
+
 class Message(object):
     def __init__(self):
         self.date = ''
@@ -76,14 +78,16 @@ def count_per_day_to_csv(counts):
     f = csv.writer(open('counts.csv', 'w'))
 
     # Write CSV Header, If you dont need that, remove this line
-    f.writerow(['date'] + recipients)
+    f.writerow(['date'] + private.recipients)
 
     for c in counts:
-        f.writerow([
-            c['date'],
-            c[recipients[0]],
-            c[recipients[1]]
-        ])
+        row = [ c['date'].strftime('%d/%m/%Y') ]
+        for id in private.recipients_ids:
+            if id in c:
+                row += [ c[id] ]
+            else:
+                row += [ 0 ]
+        f.writerow(row)
 
 
 if __name__ == '__main__':

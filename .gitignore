@@ -1,4 +1,3 @@
 *.txt
 *.csv
-
-private.py
+/private.py
